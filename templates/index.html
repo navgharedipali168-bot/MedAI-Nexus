@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MedAI Nexus | Hospital Intelligence Platform</title>
+<link rel="stylesheet" href="/static/css/style.css"></head>
+<body><div class="app">
+<aside class="sidebar">
+<div class="brand"><div class="logo">✚</div><div><b>MedAI Nexus</b><small>Hospital Intelligence</small></div></div>
+<nav>
+<a class="active" href="#dashboard">⌂ <span>Clinical Command Center</span></a>
+<a href="#patients">♙ <span>Patient Registry</span></a>
+<a href="#monitoring">♥ <span>Live Patient Monitoring</span></a>
+<a href="#appointments">◷ <span>Appointments</span></a>
+<a href="#imaging">◉ <span>Medical Imaging</span></a>
+<a href="#drug">⚗ <span>AI Drug Discovery</span></a>
+<a href="#trust">✓ <span>Trust & Safety</span></a>
+</nav>
+</aside>
+<main>
+<header><div><span class="eyebrow">HOSPITAL INTELLIGENCE PLATFORM</span><h1 id="pageTitle">Clinical Command Center</h1></div>
+<div class="top"><span class="online">● Systems online</span><span class="staff">Clinical Staff</span></div></header>
+
+<section id="dashboard" class="view active">
+<div class="hero"><div><span class="tag">AI-ASSISTED HEALTHCARE</span><h2>From Data to Diagnosis</h2>
+<p>One connected workspace for patient care, intelligent monitoring, imaging workflows, drug-discovery research and trustworthy AI.</p>
+<div class="hero-actions"><button onclick="go('patients')">Open Patient Registry</button><button class="secondary" onclick="go('trust')">Review Trust & Safety</button></div></div>
+<div class="hero-card"><span>PLATFORM STATUS</span><strong>MedAI Core</strong><div class="meter"><i></i></div><small>Clinical workflows ready</small></div></div>
+<div class="metrics"><div><small>REGISTERED PATIENTS</small><b id="mPatients">0</b><span>Active records</span></div>
+<div><small>MONITORING</small><b>24/7</b><span>Remote-ready workflow</span></div>
+<div><small>AI WORKSPACES</small><b>02</b><span>Imaging + discovery</span></div>
+<div><small>SAFETY</small><b>6</b><span>Trust controls</span></div></div>
+<div class="dataset-source" id="datasetSource"><b>Healthcare Dataset Connected</b><span>10,000 synthetic records · 22 project fields · Kaggle schema reference</span></div>
+<div class="grid2"><div class="panel"><div class="panel-head"><div><h3>Care Workflow</h3><p>Connected clinical journey</p></div></div>
+<div class="workflow"><div><b>01</b><strong>Register</strong><span>Patient profile</span></div><div><b>02</b><strong>Monitor</strong><span>Vitals & alerts</span></div><div><b>03</b><strong>Assist</strong><span>AI workspaces</span></div><div><b>04</b><strong>Review</strong><span>Clinician decision</span></div></div></div>
+<div class="panel"><div class="panel-head"><div><h3>Recent Care Notes</h3><p>Latest clinical documentation</p></div></div><div id="notesList" class="notes"></div></div></div>
+</section>
+
+<section id="patients" class="view"><div class="section-title"><div><span class="eyebrow">CARE OPERATIONS</span><h2>Patient Registry</h2><p>Authorized hospital staff can create and manage patient profiles.</p></div>
+<button onclick="openModal('patientModal')">+ Register Patient</button></div>
+<div class="panel"><table><thead><tr><th>Patient</th><th>ID</th><th>Age</th><th>Condition</th><th>Clinician</th><th>Status</th></tr></thead><tbody id="patientTable"></tbody></table></div></section>
+
+<section id="monitoring" class="view"><div class="section-title"><div><span class="eyebrow">REMOTE MONITORING</span><h2>Live Patient Monitoring</h2><p>Capture vitals, identify attention cases and coordinate virtual care.</p></div></div>
+<div class="grid2"><div class="panel form-panel"><h3>Record Vitals</h3><label>Patient<select id="vPatient"></select></label>
+<div class="formgrid"><label>Heart Rate<input id="hr" type="number" value="75"></label><label>SpO₂<input id="spo" type="number" value="98"></label>
+<label>Temperature °F<input id="temp" type="number" step=".1" value="98.6"></label><label>Systolic BP<input id="sys" type="number" value="120"></label><label>Diastolic BP<input id="dia" type="number" value="80"></label></div>
+<button onclick="saveVitals()">Save Vitals & Assess</button><div id="vResult" class="result"></div></div>
+<div class="panel"><h3>Virtual Care</h3><p class="muted">Remote consultation request for the selected patient.</p>
+<label>Reason<select id="reason"><option>Routine follow-up</option><option>Medication review</option><option>New symptom</option><option>Urgent clinical review</option></select></label>
+<label>Priority<select id="priority"><option>Routine</option><option>High</option><option>Urgent</option></select></label>
+<label>Care-team message<textarea id="vmsg">Patient is stable. Routine follow-up requested.</textarea></label>
+<button onclick="requestConsult()">Request Virtual Consultation</button><div id="cResult" class="result"></div></div></div></section>
+
+<section id="appointments" class="view"><div class="section-title"><div><span class="eyebrow">CARE OPERATIONS</span><h2>Appointments</h2><p>Schedule clinician visits and follow-up care.</p></div></div>
+<div class="panel form-panel"><div class="formgrid"><label>Patient<select id="aPatient"></select></label><label>Clinician<input id="clinician" value="Dr. Priya Sharma"></label>
+<label>Date<input id="adate" type="date"></label><label>Time<input id="atime" type="time" value="10:00"></label>
+<label>Visit Type<select id="visit"><option>Follow-up</option><option>Consultation</option><option>Review</option><option>Virtual</option></select></label></div>
+<label>Notes<textarea id="anotes">Routine follow-up consultation.</textarea></label><button onclick="scheduleAppointment()">Schedule Appointment</button><div id="aResult" class="result"></div></div></section>
+
+<section id="imaging" class="view"><div class="section-title"><div><span class="eyebrow">AI-ASSISTED WORKSPACE</span><h2>Medical Imaging</h2>
+<p>Acquire → AI Assist → Explain → Clinician Review. This is a workflow prototype, not an autonomous diagnosis.</p></div></div>
+<div class="panel form-panel"><div class="formgrid"><label>Patient<select id="iPatient"></select></label>
+<label>Modality<select id="modality"><option>X-Ray</option><option>CT</option><option>MRI</option><option>Mammography</option><option>Ultrasound</option></select></label>
+<label>Priority<select id="ipriority"><option>Routine</option><option>High</option><option>Urgent</option></select></label><label>Body Region<input id="body" value="Chest"></label></div>
+<label>Clinical Context<textarea id="context">Routine chest imaging for clinical review and follow-up.</textarea></label>
+<label>Medical Image<input id="image" type="file" accept="image/*"></label><button onclick="createImaging()">Create Review Case</button><div id="iResult" class="result"></div></div></section>
+
+<section id="drug" class="view"><div class="section-title"><div><span class="eyebrow">RESEARCH WORKSPACE</span><h2>AI Drug Discovery Lab</h2>
+<p>Demonstrates virtual screening and candidate prioritization for research review.</p></div></div>
+<div class="grid2"><div class="panel form-panel"><h3>Virtual Screening</h3><label>Target / Protein<input id="target" value="EGFR"></label>
+<label>Compound Library Size<input id="lib" type="number" value="80"></label><button onclick="runDrug()">Run Screening Experiment</button><div id="drugResult" class="result"></div></div>
+<div class="panel"><h3>Candidate Ranking</h3><div id="candidates" class="candidates"><p class="muted">Run an experiment to generate a research ranking.</p></div></div></div></section>
+
+<section id="trust" class="view"><div class="section-title"><div><span class="eyebrow">RESPONSIBLE AI</span><h2>Trust & Safety</h2><p>Healthcare AI must be privacy-aware, explainable, fair, secure and human-supervised.</p></div></div>
+<div class="safety-grid">
+<div class="safety" onclick="showSafety('Privacy','Protect patient information through controlled access, minimum necessary data use, secure handling and appropriate retention.')"><b>01</b><h3>Privacy</h3><p>Data protection by design</p></div>
+<div class="safety" onclick="showSafety('Fairness','Evaluate performance across relevant patient groups and look for unequal error patterns, false positives and false negatives.')"><b>02</b><h3>Fairness</h3><p>Reduce harmful bias</p></div>
+<div class="safety" onclick="showSafety('Explainability','AI outputs should expose useful evidence, confidence and limitations so clinicians can independently review the result.')"><b>03</b><h3>Explainability</h3><p>Understand AI assistance</p></div>
+<div class="safety" onclick="showSafety('Human Oversight','AI Output → Evidence → Clinician Review → Final Decision. AI should support—not replace—qualified medical professionals.')"><b>04</b><h3>Human Oversight</h3><p>Clinician remains responsible</p></div>
+<div class="safety" onclick="showSafety('Safety & Security','Validate models, monitor drift, protect uploads, control access and test failure modes before clinical use.')"><b>05</b><h3>Safety & Security</h3><p>Secure the full workflow</p></div>
+<div class="safety" onclick="showSafety('Accountability','Define who owns data, model validation, clinical review, incident response and governance decisions.')"><b>06</b><h3>Accountability</h3><p>Clear responsibility</p></div>
+</div><div id="safetyDetail" class="panel safety-detail"><h3>Select a control</h3><p>Choose a Trust & Safety card to review the principle and how it applies to MedAI Nexus.</p></div></section>
+</main></div>
+
+<div id="patientModal" class="modal"><div class="modal-box"><button class="close" onclick="closeModal('patientModal')">×</button><h2>Register Patient</h2>
+<div class="formgrid"><label>Patient ID<input id="pId" placeholder="Auto-generated if blank"></label><label>Name<input id="pName"></label><label>Age<input id="pAge" type="number"></label>
+<label>Gender<select id="pGender"><option>Female</option><option>Male</option><option>Other</option></select></label><label>Condition<input id="pCond"></label>
+<label>Assigned Clinician<input id="pDoctor" value="Dr. Priya Sharma"></label><label>Mobile<input id="pPhone"></label></div>
+<button onclick="registerPatient()">Create Patient Profile</button><div id="pResult" class="result"></div></div></div>
+<div id="toast" class="toast"></div><script src="/static/js/app.js"></script></body></html>
